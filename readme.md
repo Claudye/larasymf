@@ -6,12 +6,12 @@ We have not yet written a documentation for the framework but if you know how to
 1. Clone the project
 2. If you know how to handle the command line, turn on the project on any port and consult it in the browser
 
-    . If you do not master the command line download the project in xamp or wamp or other open it in your browser like all your projects
+    . If you do not master the command line download the project in xamp or wamp or other, open it in your browser like all your projects.
 
 3. You must see at the reception: Welcome to Larasymf.
 4. Go to the routes folder then to the route file
 
-    - Add this line to the table
+    - Add this line to the array
 <code> addRoute('/test', ['test_controller', 'index']); </code>
 
 5. Go to the app/Pages folder then create a test_controller.php file
