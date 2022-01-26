@@ -27,7 +27,7 @@ We have not yet written a documentation for the framework but if you know how to
 And create a <code> test_view.php </code> file
 Put html code in it
 with the following code
-`<?php echo "Name is $variable" ?>`;
+<code> echo "Name is $variable";  </code>
 
 If everything went well you should have your code working perfectly :(
 
