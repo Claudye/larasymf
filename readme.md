@@ -15,7 +15,7 @@ We have not yet written a documentation for the framework but if you know how to
 <code> addRoute('/test', ['test_controller', 'index']); </code>
 
 5. Go to the app/Pages folder then create a test_controller.php file
-6. Put the following code in front
+6. Put the following code the test_controller.php
 <code> 
     function index(){
         return view('test_view.php',[
@@ -25,7 +25,7 @@ We have not yet written a documentation for the framework but if you know how to
 </code>
 7. Go to the views folder
 And create a <code> test_view.php </code> file
-Put html code in it
+Put a html code in it
 with the following code
 <code> <?php echo "Name is $variable" ?>; </code>
 
