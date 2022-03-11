@@ -173,23 +173,17 @@ class CarbonPeriod implements Iterator, Countable, JsonSerializable
     use Options;
 
     /**
-     * Built-in filter for limit by recurrences.
+     * Built-in filters.
      *
-     * @var callable
+     * @var string
      */
     public const RECURRENCES_FILTER = [self::class, 'filterRecurrences'];
-
-    /**
-     * Built-in filter for limit to an end.
-     *
-     * @var callable
-     */
     public const END_DATE_FILTER = [self::class, 'filterEndDate'];
 
     /**
      * Special value which can be returned by filters to end iteration. Also a filter.
      *
-     * @var callable
+     * @var string
      */
     public const END_ITERATION = [self::class, 'endIteration'];
 
@@ -482,8 +476,8 @@ class CarbonPeriod implements Iterator, Countable, JsonSerializable
         $end = null;
 
         foreach (explode('/', $iso) as $key => $part) {
-            if ($key === 0 && preg_match('/^R([0-9]*|INF)$/', $part, $match)) {
-                $parsed = \strlen($match[1]) ? (($match[1] !== 'INF') ? (int) $match[1] : INF) : null;
+            if ($key === 0 && preg_match('/^R([0-9]*)$/', $part, $match)) {
+                $parsed = \strlen($match[1]) ? (int) $match[1] : null;
             } elseif ($interval === null && $parsed = CarbonInterval::make($part)) {
                 $interval = $part;
             } elseif ($start === null && $parsed = Carbon::make($part)) {

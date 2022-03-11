@@ -1,8 +1,5 @@
 <?php
-/**
- * Under maintenance
- * 
- */
+
 use Simplecode\App;
 use Simplecode\Protocole\Http\Request;
 use Simplecode\Protocole\Routing\Router;
@@ -15,7 +12,7 @@ require __DIR__ .'/vendor/autoload.php';
 
 
 /**
- * We capture the request
+ * On capture la requete
  */
 $request = Request::capture();
 

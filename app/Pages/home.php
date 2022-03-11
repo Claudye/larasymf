@@ -1,14 +1,9 @@
 <?php
 /**
- * Set data for home view
+ * Show home view inside ./views/home.php
  *
- * @return \Simplecode\Protocole\Http\Response
+ * @return void
  */
 function index(){
-    /***
-     * Goto /views/home.php to edit a home view
-     */
-    return view('home.php',[
-        'title'=>'Welcome !'
-    ]);
+    return view('home.php');
 }

@@ -43,7 +43,7 @@ class Translator implements TranslatorInterface, TranslatorBagInterface, LocaleA
     private $locale;
 
     /**
-     * @var string[]
+     * @var array
      */
     private $fallbackLocales = [];
 
@@ -165,8 +165,6 @@ class Translator implements TranslatorInterface, TranslatorBagInterface, LocaleA
     /**
      * Sets the fallback locales.
      *
-     * @param string[] $locales
-     *
      * @throws InvalidArgumentException If a locale contains invalid characters
      */
     public function setFallbackLocales(array $locales)
@@ -255,7 +253,7 @@ class Translator implements TranslatorInterface, TranslatorBagInterface, LocaleA
     /**
      * Gets the loaders.
      *
-     * @return LoaderInterface[]
+     * @return array LoaderInterface[]
      */
     protected function getLoaders()
     {
@@ -457,7 +455,7 @@ EOF
      */
     protected function assertValidLocale(string $locale)
     {
-        if (!preg_match('/^[a-z0-9@_\\.\\-]*$/i', $locale)) {
+        if (!preg_match('/^[a-z0-9@_\\.\\-]*$/i', (string) $locale)) {
             throw new InvalidArgumentException(sprintf('Invalid "%s" locale.', $locale));
         }
     }

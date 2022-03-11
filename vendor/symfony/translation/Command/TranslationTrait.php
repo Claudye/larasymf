@@ -32,7 +32,8 @@ trait TranslationTrait
 
             if ($domains) {
                 foreach ($domains as $domain) {
-                    $bag->addCatalogue($this->filterCatalogue($catalogue, $domain));
+                    $catalogue = $this->filterCatalogue($catalogue, $domain);
+                    $bag->addCatalogue($catalogue);
                 }
             } else {
                 $bag->addCatalogue($catalogue);

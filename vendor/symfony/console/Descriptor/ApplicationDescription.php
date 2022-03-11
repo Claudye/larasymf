@@ -34,12 +34,12 @@ class ApplicationDescription
     private $namespaces;
 
     /**
-     * @var array<string, Command>
+     * @var Command[]
      */
     private $commands;
 
     /**
-     * @var array<string, Command>
+     * @var Command[]
      */
     private $aliases;
 

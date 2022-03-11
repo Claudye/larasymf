@@ -67,7 +67,15 @@ class Render{
            $this->addData($with);
            _SESSION()->remove('_with');
         }
+
+        $this->clearSession();
     }
+
+    private function clearSession(){
+        _SESSION()->remove('_form');
+        _SESSION()->remove('_form_errors');
+    }
+
 
     public function addData(array $data){
         $this->data = array_merge($this->data, $data);

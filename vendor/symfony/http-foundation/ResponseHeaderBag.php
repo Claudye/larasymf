@@ -45,7 +45,7 @@ class ResponseHeaderBag extends HeaderBag
     /**
      * Returns the headers, with original capitalizations.
      *
-     * @return array
+     * @return array An array of headers
      */
     public function allPreserveCase()
     {

@@ -11,7 +11,7 @@ class CookieMetaData{
      * Nom du cookie
      * @var string
      */
-    protected $cookie;
+    protected $cookie =null;
 
     /**
      * Le metadata
@@ -48,8 +48,6 @@ class CookieMetaData{
     private function prepare(string $name){
         if ($this->metadataResolver->has($name) && $this->cookieBag->has($name)) {
            $this->cookie  = $name;
-        }else{
-            $this->cookie ='';
         }
     }
 
@@ -167,5 +165,21 @@ class CookieMetaData{
             return date("Y-m-d H:m:s", $this->getExpires());
          }
          return null;
+    }
+    /**
+     * Check if cookie exist
+     *
+     * @return bool
+     */
+    public function exist(){
+        return $this->cookie != null ;
+    }
+    /**
+     * Supprime le cookie
+     *
+     * @return bool
+     */
+    public function delete(){
+        return $this->cookieBag->remove($this->cookie);
     }
 }

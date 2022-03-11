@@ -2,7 +2,7 @@
 return [
     'host'=>'localhost',
     'auth'=> false,
-    'port' => 80,
+    'port' => 995,
     'username' => '',
     'password'=> ''
 

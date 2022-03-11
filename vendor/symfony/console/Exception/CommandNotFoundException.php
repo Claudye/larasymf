@@ -34,7 +34,7 @@ class CommandNotFoundException extends \InvalidArgumentException implements Exce
     }
 
     /**
-     * @return string[]
+     * @return string[] A list of similar defined names
      */
     public function getAlternatives()
     {

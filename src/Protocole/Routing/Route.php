@@ -1,7 +1,15 @@
 <?php
 namespace Simplecode\Protocole\Routing;
 
+use Simplecode\Protocole\Routing\RouteParameter;
+
 class Route{
+    /**
+     * Route parameter
+     *
+     * @var RouteParameter
+     */
+    protected $parameter;
     /**
      * Le chemin associer à la route
      *
@@ -149,5 +157,24 @@ class Route{
      */
     public function hasParameter(){
         return $this->requirements != [];
+    }
+    /**
+     * Return parameter with thei argument
+     *
+     * @return RouteParameter
+     */
+    public function parameters(){
+        return $this->parameter;
+    }
+
+    /**
+     * Set parameter on the route
+     *
+     * @param array $params
+     * @return $this
+     */
+    public function setParameter(array $params){
+        $this->parameter = new RouteParameter($params);
+        return $this ;
     }
 }

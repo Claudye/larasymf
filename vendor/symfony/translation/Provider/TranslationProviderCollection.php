@@ -15,12 +15,11 @@ use Symfony\Component\Translation\Exception\InvalidArgumentException;
 
 /**
  * @author Mathieu Santostefano <msantostefano@protonmail.com>
+ *
+ * @experimental in 5.3
  */
 final class TranslationProviderCollection
 {
-    /**
-     * @var array<string, ProviderInterface>
-     */
     private $providers;
 
     /**
@@ -28,7 +27,10 @@ final class TranslationProviderCollection
      */
     public function __construct(iterable $providers)
     {
-        $this->providers = \is_array($providers) ? $providers : iterator_to_array($providers);
+        $this->providers = [];
+        foreach ($providers as $name => $provider) {
+            $this->providers[$name] = $provider;
+        }
     }
 
     public function __toString(): string

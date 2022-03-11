@@ -1,13 +1,6 @@
 CHANGELOG
 =========
 
-5.4
----
-
- * Add `github` format & autodetection to render errors as annotations when
-   running the XLIFF linter command in a Github Actions environment.
- * Translation providers are not experimental anymore
-
 5.3
 ---
 

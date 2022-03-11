@@ -83,18 +83,7 @@ abstract class AbstractOperation implements OperationInterface
     public function getDomains()
     {
         if (null === $this->domains) {
-            $domains = [];
-            foreach ([$this->source, $this->target] as $catalogue) {
-                foreach ($catalogue->getDomains() as $domain) {
-                    $domains[$domain] = $domain;
-
-                    if ($catalogue->all($domainIcu = $domain.MessageCatalogueInterface::INTL_DOMAIN_SUFFIX)) {
-                        $domains[$domainIcu] = $domainIcu;
-                    }
-                }
-            }
-
-            $this->domains = array_values($domains);
+            $this->domains = array_values(array_unique(array_merge($this->source->getDomains(), $this->target->getDomains())));
         }
 
         return $this->domains;

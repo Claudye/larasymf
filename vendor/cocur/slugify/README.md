@@ -244,17 +244,14 @@ If you use `autowire` (Symfony >=3.3), you can inject it into your services like
 public function __construct(\Cocur\Slugify\SlugifyInterface $slugify)
 ```
 
-#### Symfony Configuration
-
-You can set the following configuration settings in `config.yml` (Symfony 2-3) or
-`config/packages/cocur_slugify.yaml` (Symfony 4) to adjust the slugify service:
+You can set the following configuration settings in `config.yml` to adjust the slugify service:
 
 ```yaml
 cocur_slugify:
-    lowercase: false # or true
-    separator: '-' # any string
-    # regexp: <string>
-    rulesets: ['austrian'] # List of rulesets: https://github.com/cocur/slugify/tree/master/Resources/rules
+    lowercase: <boolean>
+    separator: <string>
+    regexp: <string>
+    rulesets: {} # List of rulesets: https://github.com/cocur/slugify/tree/master/Resources/rules
 ```
 
 ### Twig
@@ -505,19 +502,6 @@ $slugify = $container->get(Slugify\SlugifyInterface::class);
 ```
 
 ## Change Log
-
-### Version 4.1 (11 January 2022)
-
-Support for Symfony 6.
-
-- [#244](https://github.com/cocur/slugify/pull/244) .gitignore cleanup (by [kubawerlos](https://github.com/kubawerlos))
-- [#259](https://github.com/cocur/slugify/pull/259) Fix portuguese-brazil language (by [stephandesouza](https://github.com/stephandesouza))
-- [#272](https://github.com/cocur/slugify/pull/272) Improve tests about assertions (by [peter279k](https://github.com/peter279k))
-- [#278](https://github.com/cocur/slugify/pull/278) Update georgian.json (by [nikameto](https://github.com/nikameto))
-- [#299](https://github.com/cocur/slugify/pull/299) Allow Symfony 6 and resolve depreciations (by [GromNaN](https://github.com/GromNaN))
-- [#264](https://github.com/cocur/slugify/pull/264) Add new Gujarati language (by [infynnoTech](https://github.com/infynnoTech))
-- [#297](https://github.com/cocur/slugify/pull/297) More Yoruba character support (by [9jaGuy](https://github.com/9jaGuy))
-
 
 ### Version 4.0 (14 December 2019)
 

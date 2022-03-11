@@ -1242,7 +1242,7 @@ class Builder
     /**
      * Add a "where date" statement to the query.
      *
-     * @param  \Illuminate\Database\Query\Expression|string  $column
+     * @param  string  $column
      * @param  string  $operator
      * @param  \DateTimeInterface|string|null  $value
      * @param  string  $boolean
@@ -1819,39 +1819,6 @@ class Builder
         $bool = strtolower($connector);
 
         $this->where(Str::snake($segment), '=', $parameters[$index], $bool);
-    }
-
-    /**
-     * Add a "where fulltext" clause to the query.
-     *
-     * @param  string|string[]  $columns
-     * @param  string  $value
-     * @param  string  $boolean
-     * @return $this
-     */
-    public function whereFullText($columns, $value, array $options = [], $boolean = 'and')
-    {
-        $type = 'Fulltext';
-
-        $columns = (array) $columns;
-
-        $this->wheres[] = compact('type', 'columns', 'value', 'options', 'boolean');
-
-        $this->addBinding($value);
-
-        return $this;
-    }
-
-    /**
-     * Add a "or where fulltext" clause to the query.
-     *
-     * @param  string|string[]  $columns
-     * @param  string  $value
-     * @return $this
-     */
-    public function orWhereFullText($columns, $value, array $options = [])
-    {
-        return $this->whereFulltext($columns, $value, $options, 'or');
     }
 
     /**

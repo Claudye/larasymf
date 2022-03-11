@@ -9,8 +9,9 @@
     <style>
         body{
             margin: 0;
-            background-color:rgb(223, 225, 223);
+            background-color:rgb(245, 240, 245);
             color: #999;
+            font-size: small;
         }
         .e404{
            display: flex;

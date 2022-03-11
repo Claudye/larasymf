@@ -1,11 +1,12 @@
 <?php
-namespace App\Http\Controllers;
+namespace Components\Http\Controllers;
 
 use Simplecode\Protocole\Routing\Controller;
 class HomeController extends Controller{
-    public function index(){
+    public function home(){
+       
         return view('home.php',[
-           'title'=> "Welcome !"
+           'title'=> translate('home.title')
         ]);
     }
 }

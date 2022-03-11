@@ -2,9 +2,7 @@
 
 namespace Illuminate\Database\Eloquent\Factories;
 
-use Countable;
-
-class Sequence implements Countable
+class Sequence
 {
     /**
      * The sequence of return values.
@@ -37,16 +35,6 @@ class Sequence implements Countable
     {
         $this->sequence = $sequence;
         $this->count = count($sequence);
-    }
-
-    /**
-     * Get the current count of the sequence items.
-     *
-     * @return int
-     */
-    public function count(): int
-    {
-        return $this->count;
     }
 
     /**

@@ -66,7 +66,7 @@ class RedirectResponse extends Response
     /**
      * Returns the target URL.
      *
-     * @return string
+     * @return string target URL
      */
     public function getTargetUrl()
     {

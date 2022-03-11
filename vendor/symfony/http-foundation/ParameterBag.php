@@ -17,8 +17,6 @@ use Symfony\Component\HttpFoundation\Exception\BadRequestException;
  * ParameterBag is a container for key/value pairs.
  *
  * @author Fabien Potencier <fabien@symfony.com>
- *
- * @implements \IteratorAggregate<string, mixed>
  */
 class ParameterBag implements \IteratorAggregate, \Countable
 {
@@ -37,7 +35,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
      *
      * @param string|null $key The name of the parameter to return or null to get them all
      *
-     * @return array
+     * @return array An array of parameters
      */
     public function all(/*string $key = null*/)
     {
@@ -57,7 +55,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
     /**
      * Returns the parameter keys.
      *
-     * @return array
+     * @return array An array of parameter keys
      */
     public function keys()
     {
@@ -105,7 +103,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
     /**
      * Returns true if the parameter is defined.
      *
-     * @return bool
+     * @return bool true if the parameter exists, false otherwise
      */
     public function has(string $key)
     {
@@ -123,7 +121,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
     /**
      * Returns the alphabetic characters of the parameter value.
      *
-     * @return string
+     * @return string The filtered value
      */
     public function getAlpha(string $key, string $default = '')
     {
@@ -133,7 +131,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
     /**
      * Returns the alphabetic characters and digits of the parameter value.
      *
-     * @return string
+     * @return string The filtered value
      */
     public function getAlnum(string $key, string $default = '')
     {
@@ -143,7 +141,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
     /**
      * Returns the digits of the parameter value.
      *
-     * @return string
+     * @return string The filtered value
      */
     public function getDigits(string $key, string $default = '')
     {
@@ -154,7 +152,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
     /**
      * Returns the parameter value converted to integer.
      *
-     * @return int
+     * @return int The filtered value
      */
     public function getInt(string $key, int $default = 0)
     {
@@ -164,7 +162,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
     /**
      * Returns the parameter value converted to boolean.
      *
-     * @return bool
+     * @return bool The filtered value
      */
     public function getBoolean(string $key, bool $default = false)
     {
@@ -207,7 +205,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
     /**
      * Returns an iterator for parameters.
      *
-     * @return \ArrayIterator<string, mixed>
+     * @return \ArrayIterator An \ArrayIterator instance
      */
     #[\ReturnTypeWillChange]
     public function getIterator()
@@ -218,7 +216,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
     /**
      * Returns the number of parameters.
      *
-     * @return int
+     * @return int The number of parameters
      */
     #[\ReturnTypeWillChange]
     public function count()

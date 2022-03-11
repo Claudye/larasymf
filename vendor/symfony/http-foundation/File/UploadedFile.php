@@ -76,7 +76,7 @@ class UploadedFile extends File
      * It is extracted from the request from which the file has been uploaded.
      * Then it should not be considered as a safe value.
      *
-     * @return string
+     * @return string The original name
      */
     public function getClientOriginalName()
     {
@@ -89,7 +89,7 @@ class UploadedFile extends File
      * It is extracted from the original file name that was uploaded.
      * Then it should not be considered as a safe value.
      *
-     * @return string
+     * @return string The extension
      */
     public function getClientOriginalExtension()
     {
@@ -105,7 +105,7 @@ class UploadedFile extends File
      * For a trusted mime type, use getMimeType() instead (which guesses the mime
      * type based on the file content).
      *
-     * @return string
+     * @return string The mime type
      *
      * @see getMimeType()
      */
@@ -126,7 +126,7 @@ class UploadedFile extends File
      * For a trusted extension, use guessExtension() instead (which guesses
      * the extension based on the guessed mime type for the file).
      *
-     * @return string|null
+     * @return string|null The guessed extension or null if it cannot be guessed
      *
      * @see guessExtension()
      * @see getClientMimeType()
@@ -146,7 +146,7 @@ class UploadedFile extends File
      * If the upload was successful, the constant UPLOAD_ERR_OK is returned.
      * Otherwise one of the other UPLOAD_ERR_XXX constants is returned.
      *
-     * @return int
+     * @return int The upload error
      */
     public function getError()
     {
@@ -154,9 +154,9 @@ class UploadedFile extends File
     }
 
     /**
-     * Returns whether the file has been uploaded with HTTP and no error occurred.
+     * Returns whether the file was uploaded successfully.
      *
-     * @return bool
+     * @return bool True if the file has been uploaded with HTTP and no error occurred
      */
     public function isValid()
     {
@@ -168,7 +168,7 @@ class UploadedFile extends File
     /**
      * Moves the file to a new location.
      *
-     * @return File
+     * @return File A File object representing the new file
      *
      * @throws FileException if, for any reason, the file could not have been moved
      */
@@ -182,11 +182,8 @@ class UploadedFile extends File
             $target = $this->getTargetFile($directory, $name);
 
             set_error_handler(function ($type, $msg) use (&$error) { $error = $msg; });
-            try {
-                $moved = move_uploaded_file($this->getPathname(), $target);
-            } finally {
-                restore_error_handler();
-            }
+            $moved = move_uploaded_file($this->getPathname(), $target);
+            restore_error_handler();
             if (!$moved) {
                 throw new FileException(sprintf('Could not move the file "%s" to "%s" (%s).', $this->getPathname(), $target, strip_tags($error)));
             }
@@ -267,7 +264,7 @@ class UploadedFile extends File
     /**
      * Returns an informative upload error message.
      *
-     * @return string
+     * @return string The error message regarding the specified error code
      */
     public function getErrorMessage()
     {

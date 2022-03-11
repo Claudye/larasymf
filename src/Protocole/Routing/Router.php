@@ -36,13 +36,18 @@ class Router{
        $this->set();
         foreach ($this->routes as $key => $route) {
             $pattern = "@^" . preg_replace('/\\\{[a-zA-Z0-9]+\\\}/', '([a-zA-Z0-9\-\_]+)', preg_quote($route->getPath())) . "(\?.*)?$@";
-    
+            preg_match_all('/\{[a-zA-Z0-9]+\}/',$route->getPath(), $m);
+            
+           
             if (preg_match($pattern, $request->getPathInfo(), $matches) && in_array($request->getMethod(), $route->getMethods())) {
                 
                 array_shift($matches);
                 $this->arguments = $matches ;
                 $this->route = $route ;
 
+                $this->route->setParameter(
+                    $this->map_parameters($m, $matches)
+                );
                 if ($this->route->getName()=='') {
                    $this->route->name("$key");
                 }
@@ -113,29 +118,12 @@ class Router{
          /**
          * Routes listes
          */
-        
-        $routes = array_merge(
-            require joinPath(config('app.routes'),'routes.php'), 
-            require __DIR__. "/../../App/routes.php");
-        /**
-         * Sample route
-         */
-        $this->routes = array_filter($routes,function($item){
-            return  !is_array($item);
-        });
+        require joinPath(config('app.routes'),'routes.php');
+       
+        require __DIR__. "/../../App/routes.php";
+     
+        $this->routes = RouteCollection::routes();
       
-        //Array of routes,
-        $array0fRoutes =array_filter($routes,function($item){
-            return is_array($item) ;
-        });
-        unset($routes);
-
-        foreach ($array0fRoutes as $key => $routesListe) {
-            foreach ($routesListe as $key => $route) {
-                //Append route from array route
-                $this->routes []=  $route;
-            }
-        }
         $this->routes =  array_map(function(Route $route){
             if (preg_match_all('/{([^}]+)}/', $route->getPath(), $matches)) {
                 array_shift($matches);
@@ -149,5 +137,20 @@ class Router{
             }
             return $route ;
         },$this->routes);
+    }
+
+    private function map_parameters(array $params, array $arguments =[]){
+        $mparams = [];
+
+        foreach ($params as $key => $hug) {
+           
+           $hug = array_map(function($val){
+                return str_replace(['{','}'],['',''],$val);
+           },$hug);
+
+           $mparams=array_combine($hug,$arguments);
+        }
+
+        return $mparams;
     }
 }

@@ -31,7 +31,7 @@ class ArrayConverter
      *
      * @param array $messages Linear messages array
      *
-     * @return array
+     * @return array Tree-like messages array
      */
     public static function expandToTree(array $messages)
     {

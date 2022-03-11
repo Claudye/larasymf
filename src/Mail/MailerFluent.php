@@ -174,11 +174,11 @@ class MailerFluent
      * @param string $message
      * @return MailerFluent
      */
-    public function message(string $message, bool $isHtml = false): MailerFluent
+    public function message(string $message): MailerFluent
     {
         $this->message = $message;
         $this->data['message'] = $message;
-        $this->mailer->isHTML($isHtml);
+
         return $this;
     }
 

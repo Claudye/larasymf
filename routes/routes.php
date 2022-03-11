@@ -1,18 +1,17 @@
 <?php
 
 /**
- * Ici la définitions des routes du site
- * Si une route n'est pas définie ici alors une erreur 404 sera levée
+ * Here the definitions of the routes of the site
+ * If a route is not defined here then a 404 error will be thrown
  */
 
 use App\Http\Controllers\HomeController;
 
-return [
     /**
      * Got to ./app/Pages
      * You will find a file named home.php with a function named  index
      */
-    addRoute('/', ['home', 'index']),
+    addRoute('/', ['home', 'index']);
     
     /**
      * 
@@ -37,5 +36,3 @@ return [
     }),
     *
     */
-
-];

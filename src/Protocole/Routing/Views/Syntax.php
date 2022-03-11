@@ -9,12 +9,12 @@ class Syntax
      *
      * @var string
      */
-    protected $layout_rgx = '/<layout\s+file=["\'](.{5,})["\']\s*\/*>/U';
+    protected $layout_rgx = '/<layout file=["\'](.{5,})["\']?>/U';
     /***
      * Inclusion regex
      * @var string
      */
-    protected $inc_rgx = '/<inc\s+file=["\'](.{5,})["\']\s*\/*>/U';
+    protected $inc_rgx = '/<inc file=["\'](.{5,})["\']>/U';
 
     /**
      * Le layout 

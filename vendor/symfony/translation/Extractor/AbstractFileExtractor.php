@@ -70,7 +70,7 @@ abstract class AbstractFileExtractor
     /**
      * @param string|array $resource Files, a file or a directory
      *
-     * @return iterable
+     * @return iterable files to be extracted
      */
     abstract protected function extractFromDirectory($resource);
 }

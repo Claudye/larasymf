@@ -20,7 +20,7 @@ class_exists(Session::class);
 /**
  * @author Jérémy Derussé <jeremy@derusse.com>
  */
-class SessionFactory implements SessionFactoryInterface
+class SessionFactory
 {
     private $requestStack;
     private $storageFactory;

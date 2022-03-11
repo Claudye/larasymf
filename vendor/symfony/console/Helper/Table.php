@@ -85,9 +85,6 @@ class Table
     private $columnWidths = [];
     private $columnMaxWidths = [];
 
-    /**
-     * @var array<string, TableStyle>|null
-     */
     private static $styles;
 
     private $rendered = false;
@@ -229,9 +226,6 @@ class Table
         return $this;
     }
 
-    /**
-     * @return $this
-     */
     public function setHeaders(array $headers)
     {
         $headers = array_values($headers);
@@ -251,9 +245,6 @@ class Table
         return $this->addRows($rows);
     }
 
-    /**
-     * @return $this
-     */
     public function addRows(array $rows)
     {
         foreach ($rows as $row) {
@@ -263,9 +254,6 @@ class Table
         return $this;
     }
 
-    /**
-     * @return $this
-     */
     public function addRow($row)
     {
         if ($row instanceof TableSeparator) {
@@ -285,8 +273,6 @@ class Table
 
     /**
      * Adds a row to the table, and re-renders the table.
-     *
-     * @return $this
      */
     public function appendRow($row): self
     {
@@ -304,9 +290,6 @@ class Table
         return $this;
     }
 
-    /**
-     * @return $this
-     */
     public function setRow($column, array $row)
     {
         $this->rows[$column] = $row;
@@ -314,9 +297,6 @@ class Table
         return $this;
     }
 
-    /**
-     * @return $this
-     */
     public function setHeaderTitle(?string $title): self
     {
         $this->headerTitle = $title;
@@ -324,9 +304,6 @@ class Table
         return $this;
     }
 
-    /**
-     * @return $this
-     */
     public function setFooterTitle(?string $title): self
     {
         $this->footerTitle = $title;
@@ -334,9 +311,6 @@ class Table
         return $this;
     }
 
-    /**
-     * @return $this
-     */
     public function setHorizontal(bool $horizontal = true): self
     {
         $this->horizontal = $horizontal;
@@ -829,9 +803,6 @@ class Table
         $this->numberOfColumns = null;
     }
 
-    /**
-     * @return array<string, TableStyle>
-     */
     private static function initStyles(): array
     {
         $borderless = new TableStyle();

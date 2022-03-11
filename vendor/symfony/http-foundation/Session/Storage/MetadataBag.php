@@ -139,7 +139,6 @@ class MetadataBag implements SessionBagInterface
     public function clear()
     {
         // nothing to do
-        return null;
     }
 
     /**

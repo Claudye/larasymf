@@ -186,7 +186,7 @@ class Request
     protected $format;
 
     /**
-     * @var SessionInterface|callable(): SessionInterface
+     * @var SessionInterface|callable
      */
     protected $session;
 
@@ -512,7 +512,7 @@ class Request
     /**
      * Returns the request as a string.
      *
-     * @return string
+     * @return string The request
      */
     public function __toString()
     {
@@ -602,7 +602,7 @@ class Request
     /**
      * Gets the list of trusted proxies.
      *
-     * @return array
+     * @return array An array of trusted proxies
      */
     public static function getTrustedProxies()
     {
@@ -638,7 +638,7 @@ class Request
     /**
      * Gets the list of trusted host patterns.
      *
-     * @return array
+     * @return array An array of trusted host patterns
      */
     public static function getTrustedHosts()
     {
@@ -651,7 +651,7 @@ class Request
      * It builds a normalized query string, where keys/value pairs are alphabetized,
      * have consistent escaping and unneeded delimiters are removed.
      *
-     * @return string
+     * @return string A normalized query string for the Request
      */
     public static function normalizeQueryString(?string $qs)
     {
@@ -684,7 +684,7 @@ class Request
     /**
      * Checks whether support for the _method request parameter is enabled.
      *
-     * @return bool
+     * @return bool True when the _method request parameter is enabled, false otherwise
      */
     public static function getHttpMethodParameterOverride()
     {
@@ -703,8 +703,6 @@ class Request
      * @param mixed $default The default value if the parameter key does not exist
      *
      * @return mixed
-     *
-     * @internal since Symfony 5.4, use explicit input sources instead
      */
     public function get(string $key, $default = null)
     {
@@ -726,7 +724,7 @@ class Request
     /**
      * Gets the Session.
      *
-     * @return SessionInterface
+     * @return SessionInterface The session
      */
     public function getSession()
     {
@@ -761,15 +759,11 @@ class Request
      * like whether the session is started or not. It is just a way to check if this Request
      * is associated with a Session instance.
      *
-     * @param bool $skipIfUninitialized When true, ignores factories injected by `setSessionFactory`
-     *
-     * @return bool
+     * @return bool true when the Request contains a Session object, false otherwise
      */
-    public function hasSession(/* bool $skipIfUninitialized = false */)
+    public function hasSession()
     {
-        $skipIfUninitialized = \func_num_args() > 0 ? func_get_arg(0) : false;
-
-        return null !== $this->session && (!$skipIfUninitialized || $this->session instanceof SessionInterface);
+        return null !== $this->session;
     }
 
     public function setSession(SessionInterface $session)
@@ -779,8 +773,6 @@ class Request
 
     /**
      * @internal
-     *
-     * @param callable(): SessionInterface $factory
      */
     public function setSessionFactory(callable $factory)
     {
@@ -796,7 +788,7 @@ class Request
      *
      * Use this method carefully; you should use getClientIp() instead.
      *
-     * @return array
+     * @return array The client IP addresses
      *
      * @see getClientIp()
      */
@@ -824,7 +816,7 @@ class Request
      * ("Client-Ip" for instance), configure it via the $trustedHeaderSet
      * argument of the Request::setTrustedProxies() method instead.
      *
-     * @return string|null
+     * @return string|null The client IP address
      *
      * @see getClientIps()
      * @see https://wikipedia.org/wiki/X-Forwarded-For
@@ -918,7 +910,7 @@ class Request
      *
      * @return string The raw URL (i.e. not urldecoded)
      */
-    private function getBaseUrlReal(): string
+    private function getBaseUrlReal()
     {
         if (null === $this->baseUrl) {
             $this->baseUrl = $this->prepareBaseUrl();
@@ -945,7 +937,7 @@ class Request
      *
      * The "X-Forwarded-Port" header must contain the client port.
      *
-     * @return int|string|null Can be a string if fetched from the server bag
+     * @return int|string can be a string if fetched from the server bag
      */
     public function getPort()
     {
@@ -1046,7 +1038,7 @@ class Request
      * If the URL was called with basic authentication, the user
      * and the password are not added to the generated string.
      *
-     * @return string
+     * @return string The scheme and HTTP host
      */
     public function getSchemeAndHttpHost()
     {
@@ -1056,7 +1048,7 @@ class Request
     /**
      * Generates a normalized URI (URL) for the Request.
      *
-     * @return string
+     * @return string A normalized URI (URL) for the Request
      *
      * @see getQueryString()
      */
@@ -1074,7 +1066,7 @@ class Request
      *
      * @param string $path A path to use instead of the current one
      *
-     * @return string
+     * @return string The normalized URI for the path
      */
     public function getUriForPath(string $path)
     {
@@ -1096,7 +1088,7 @@ class Request
      * - "/a/b/c/other" -> "other"
      * - "/a/x/y"       -> "../../x/y"
      *
-     * @return string
+     * @return string The relative target path
      */
     public function getRelativeUriForPath(string $path)
     {
@@ -1140,7 +1132,7 @@ class Request
      * It builds a normalized query string, where keys/value pairs are alphabetized
      * and have consistent escaping.
      *
-     * @return string|null
+     * @return string|null A normalized query string for the Request
      */
     public function getQueryString()
     {
@@ -1254,7 +1246,7 @@ class Request
      *
      * The method is always an uppercased string.
      *
-     * @return string
+     * @return string The request method
      *
      * @see getRealMethod()
      */
@@ -1296,7 +1288,7 @@ class Request
     /**
      * Gets the "real" request method.
      *
-     * @return string
+     * @return string The request method
      *
      * @see getMethod()
      */
@@ -1308,7 +1300,7 @@ class Request
     /**
      * Gets the mime type associated with the format.
      *
-     * @return string|null
+     * @return string|null The associated mime type (null if not found)
      */
     public function getMimeType(string $format)
     {
@@ -1322,7 +1314,7 @@ class Request
     /**
      * Gets the mime types associated with the format.
      *
-     * @return array
+     * @return array The associated mime types
      */
     public static function getMimeTypes(string $format)
     {
@@ -1336,7 +1328,7 @@ class Request
     /**
      * Gets the format associated with the mime type.
      *
-     * @return string|null
+     * @return string|null The format (null if not found)
      */
     public function getFormat(?string $mimeType)
     {
@@ -1386,7 +1378,7 @@ class Request
      *
      * @see getPreferredFormat
      *
-     * @return string|null
+     * @return string|null The request format
      */
     public function getRequestFormat(?string $default = 'html')
     {
@@ -1408,7 +1400,7 @@ class Request
     /**
      * Gets the format associated with the request.
      *
-     * @return string|null
+     * @return string|null The format (null if no content type is present)
      */
     public function getContentType()
     {
@@ -1494,7 +1486,7 @@ class Request
      *
      * @see https://tools.ietf.org/html/rfc7231#section-4.2.3
      *
-     * @return bool
+     * @return bool True for GET and HEAD, false otherwise
      */
     public function isMethodCacheable()
     {
@@ -1515,7 +1507,7 @@ class Request
     public function getProtocolVersion()
     {
         if ($this->isFromTrustedProxy()) {
-            preg_match('~^(HTTP/)?([1-9]\.[0-9]) ~', $this->headers->get('Via') ?? '', $matches);
+            preg_match('~^(HTTP/)?([1-9]\.[0-9]) ~', $this->headers->get('Via'), $matches);
 
             if ($matches) {
                 return 'HTTP/'.$matches[2];
@@ -1530,7 +1522,7 @@ class Request
      *
      * @param bool $asResource If true, a resource will be returned
      *
-     * @return string|resource
+     * @return string|resource The request body content or a resource to read the body stream
      */
     public function getContent(bool $asResource = false)
     {
@@ -1603,7 +1595,7 @@ class Request
     /**
      * Gets the Etags.
      *
-     * @return array
+     * @return array The entity tags
      */
     public function getETags()
     {
@@ -1646,7 +1638,7 @@ class Request
      *
      * @param string[] $locales An array of ordered available locales
      *
-     * @return string|null
+     * @return string|null The preferred locale
      */
     public function getPreferredLanguage(array $locales = null)
     {
@@ -1677,9 +1669,9 @@ class Request
     }
 
     /**
-     * Gets a list of languages acceptable by the client browser ordered in the user browser preferences.
+     * Gets a list of languages acceptable by the client browser.
      *
-     * @return array
+     * @return array Languages ordered in the user browser preferences
      */
     public function getLanguages()
     {
@@ -1717,9 +1709,9 @@ class Request
     }
 
     /**
-     * Gets a list of charsets acceptable by the client browser in preferable order.
+     * Gets a list of charsets acceptable by the client browser.
      *
-     * @return array
+     * @return array List of charsets in preferable order
      */
     public function getCharsets()
     {
@@ -1731,9 +1723,9 @@ class Request
     }
 
     /**
-     * Gets a list of encodings acceptable by the client browser in preferable order.
+     * Gets a list of encodings acceptable by the client browser.
      *
-     * @return array
+     * @return array List of encodings in preferable order
      */
     public function getEncodings()
     {
@@ -1745,9 +1737,9 @@ class Request
     }
 
     /**
-     * Gets a list of content types acceptable by the client browser in preferable order.
+     * Gets a list of content types acceptable by the client browser.
      *
-     * @return array
+     * @return array List of content types in preferable order
      */
     public function getAcceptableContentTypes()
     {
@@ -1766,7 +1758,7 @@ class Request
      *
      * @see https://wikipedia.org/wiki/List_of_Ajax_frameworks#JavaScript
      *
-     * @return bool
+     * @return bool true if the request is an XMLHttpRequest, false otherwise
      */
     public function isXmlHttpRequest()
     {
@@ -1786,10 +1778,14 @@ class Request
 
         if (!$this->isSecure()) {
             // see https://tools.ietf.org/html/rfc8674#section-3
-            return $this->isSafeContentPreferred = false;
+            $this->isSafeContentPreferred = false;
+
+            return $this->isSafeContentPreferred;
         }
 
-        return $this->isSafeContentPreferred = AcceptHeader::fromString($this->headers->get('Prefer'))->has('safe');
+        $this->isSafeContentPreferred = AcceptHeader::fromString($this->headers->get('Prefer'))->has('safe');
+
+        return $this->isSafeContentPreferred;
     }
 
     /*
@@ -1917,7 +1913,7 @@ class Request
     /**
      * Prepares the base path.
      *
-     * @return string
+     * @return string base path
      */
     protected function prepareBasePath()
     {
@@ -1943,7 +1939,7 @@ class Request
     /**
      * Prepares the path info.
      *
-     * @return string
+     * @return string path info
      */
     protected function preparePathInfo()
     {
@@ -1969,7 +1965,7 @@ class Request
             return '/';
         }
 
-        return $pathInfo;
+        return (string) $pathInfo;
     }
 
     /**
@@ -1988,7 +1984,7 @@ class Request
             'rdf' => ['application/rdf+xml'],
             'atom' => ['application/atom+xml'],
             'rss' => ['application/rss+xml'],
-            'form' => ['application/x-www-form-urlencoded', 'multipart/form-data'],
+            'form' => ['application/x-www-form-urlencoded'],
         ];
     }
 
@@ -2045,7 +2041,7 @@ class Request
      * This can be useful to determine whether or not to trust the
      * contents of a proxy-specific header.
      *
-     * @return bool
+     * @return bool true if the request came from a trusted proxy, false otherwise
      */
     public function isFromTrustedProxy()
     {

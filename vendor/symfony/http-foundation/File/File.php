@@ -47,7 +47,7 @@ class File extends \SplFileInfo
      * This method uses the mime type as guessed by getMimeType()
      * to guess the file extension.
      *
-     * @return string|null
+     * @return string|null The guessed extension or null if it cannot be guessed
      *
      * @see MimeTypes
      * @see getMimeType()
@@ -68,7 +68,7 @@ class File extends \SplFileInfo
      * which uses finfo_file() then the "file" system binary,
      * depending on which of those are available.
      *
-     * @return string|null
+     * @return string|null The guessed mime type (e.g. "application/pdf")
      *
      * @see MimeTypes
      */
@@ -84,7 +84,7 @@ class File extends \SplFileInfo
     /**
      * Moves the file to a new location.
      *
-     * @return self
+     * @return self A File object representing the new file
      *
      * @throws FileException if the target file could not be created
      */
@@ -93,11 +93,8 @@ class File extends \SplFileInfo
         $target = $this->getTargetFile($directory, $name);
 
         set_error_handler(function ($type, $msg) use (&$error) { $error = $msg; });
-        try {
-            $renamed = rename($this->getPathname(), $target);
-        } finally {
-            restore_error_handler();
-        }
+        $renamed = rename($this->getPathname(), $target);
+        restore_error_handler();
         if (!$renamed) {
             throw new FileException(sprintf('Could not move the file "%s" to "%s" (%s).', $this->getPathname(), $target, strip_tags($error)));
         }

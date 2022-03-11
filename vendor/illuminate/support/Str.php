@@ -676,17 +676,6 @@ class Str
     }
 
     /**
-     * Reverse the given string.
-     *
-     * @param  string  $value
-     * @return string
-     */
-    public static function reverse(string $value)
-    {
-        return implode(array_reverse(mb_str_split($value)));
-    }
-
-    /**
      * Begin a string with a single instance of a given value.
      *
      * @param  string  $value
@@ -873,24 +862,6 @@ class Str
         } else {
             return substr_count($haystack, $needle, $offset);
         }
-    }
-
-    /**
-     * Replace text within a portion of a string.
-     *
-     * @param  string|array  $string
-     * @param  string|array  $replace
-     * @param  array|int  $offset
-     * @param  array|int|null  $length
-     * @return string|array
-     */
-    public static function substrReplace($string, $replace, $offset = 0, $length = null)
-    {
-        if ($length === null) {
-            $length = strlen($string);
-        }
-
-        return substr_replace($string, $replace, $offset, $length);
     }
 
     /**

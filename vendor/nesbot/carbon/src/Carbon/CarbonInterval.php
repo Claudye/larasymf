@@ -365,7 +365,7 @@ class CarbonInterval extends DateInterval implements CarbonConverterInterface
         if ($years instanceof DateInterval) {
             parent::__construct(static::getDateIntervalSpec($years));
             $this->f = $years->f;
-            self::copyNegativeUnits($years, $this);
+            static::copyNegativeUnits($years, $this);
 
             return;
         }
@@ -416,7 +416,7 @@ class CarbonInterval extends DateInterval implements CarbonConverterInterface
     {
         $source = self::standardizeUnit($source);
         $target = self::standardizeUnit($target);
-        $factors = self::getFlipCascadeFactors();
+        $factors = static::getFlipCascadeFactors();
 
         if (isset($factors[$source])) {
             [$to, $factor] = $factors[$source];
@@ -429,37 +429,6 @@ class CarbonInterval extends DateInterval implements CarbonConverterInterface
         }
 
         return null;
-    }
-
-    /**
-     * Returns the factor for a given source-to-target couple if set,
-     * else try to find the appropriate constant as the factor, such as Carbon::DAYS_PER_WEEK.
-     *
-     * @param string $source
-     * @param string $target
-     *
-     * @return int|null
-     */
-    public function getFactorWithDefault($source, $target)
-    {
-        $factor = self::getFactor($source, $target);
-
-        if ($factor) {
-            return $factor;
-        }
-
-        static $defaults = [
-            'month' => ['year' => Carbon::MONTHS_PER_YEAR],
-            'week' => ['month' => Carbon::WEEKS_PER_MONTH],
-            'day' => ['week' => Carbon::DAYS_PER_WEEK],
-            'hour' => ['day' => Carbon::HOURS_PER_DAY],
-            'minute' => ['hour' => Carbon::MINUTES_PER_HOUR],
-            'second' => ['minute' => Carbon::SECONDS_PER_MINUTE],
-            'millisecond' => ['second' => Carbon::MILLISECONDS_PER_SECOND],
-            'microsecond' => ['millisecond' => Carbon::MICROSECONDS_PER_MILLISECOND],
-        ];
-
-        return $defaults[$source][$target] ?? null;
     }
 
     /**
@@ -898,10 +867,10 @@ class CarbonInterval extends DateInterval implements CarbonConverterInterface
         }
 
         if ($interval instanceof self && is_a($className, self::class, true)) {
-            self::copyStep($interval, $instance);
+            static::copyStep($interval, $instance);
         }
 
-        self::copyNegativeUnits($interval, $instance);
+        static::copyNegativeUnits($interval, $instance);
 
         return $instance;
     }
@@ -1408,11 +1377,7 @@ class CarbonInterval extends DateInterval implements CarbonConverterInterface
         $altNumbers = false;
         $aUnit = false;
         $minimumUnit = 's';
-        $skip = [];
         extract($this->getForHumansInitialVariables($syntax, $short));
-        $skip = array_filter((array) $skip, static function ($value) {
-            return \is_string($value) && $value !== '';
-        });
 
         if ($syntax === null) {
             $syntax = CarbonInterface::DIFF_ABSOLUTE;
@@ -1475,7 +1440,7 @@ class CarbonInterval extends DateInterval implements CarbonConverterInterface
             ':optional-space' => $optionalSpace,
         ];
 
-        return [$syntax, $short, $parts, $options, $join, $aUnit, $altNumbers, $interpolations, $minimumUnit, $skip];
+        return [$syntax, $short, $parts, $options, $join, $aUnit, $altNumbers, $interpolations, $minimumUnit];
     }
 
     protected static function getRoundingMethodFromOptions(int $options): ?string
@@ -1579,9 +1544,6 @@ class CarbonInterval extends DateInterval implements CarbonConverterInterface
      *                           - 'short' entry (see below)
      *                           - 'parts' entry (see below)
      *                           - 'options' entry (see below)
-     *                           - 'skip' entry, list of units to skip (array of strings or a single string,
-     *                           ` it can be the unit name (singular or plural) or its shortcut
-     *                           ` (y, m, w, d, h, min, s, ms, µs).
      *                           - 'aUnit' entry, prefer "an hour" over "1 hour" if true
      *                           - 'join' entry determines how to join multiple parts of the string
      *                           `  - if $join is a string, it's used as a joiner glue
@@ -1608,8 +1570,7 @@ class CarbonInterval extends DateInterval implements CarbonConverterInterface
      */
     public function forHumans($syntax = null, $short = false, $parts = -1, $options = null)
     {
-        [$syntax, $short, $parts, $options, $join, $aUnit, $altNumbers, $interpolations, $minimumUnit, $skip] = $this
-            ->getForHumansParameters($syntax, $short, $parts, $options);
+        [$syntax, $short, $parts, $options, $join, $aUnit, $altNumbers, $interpolations, $minimumUnit] = $this->getForHumansParameters($syntax, $short, $parts, $options);
 
         $interval = [];
 
@@ -1675,21 +1636,6 @@ class CarbonInterval extends DateInterval implements CarbonConverterInterface
             ['value' => $intervalValues->microExcludeMilli, 'unit' => 'microsecond', 'unitShort' => 'µs'],
         ];
 
-        if (!empty($skip)) {
-            foreach ($diffIntervalArray as $index => &$unitData) {
-                $nextIndex = $index + 1;
-
-                if ($unitData['value'] &&
-                    isset($diffIntervalArray[$nextIndex]) &&
-                    \count(array_intersect([$unitData['unit'], $unitData['unit'].'s', $unitData['unitShort']], $skip))
-                ) {
-                    $diffIntervalArray[$nextIndex]['value'] += $unitData['value'] *
-                        self::getFactorWithDefault($diffIntervalArray[$nextIndex]['unit'], $unitData['unit']);
-                    $unitData['value'] = 0;
-                }
-            }
-        }
-
         $transChoice = function ($short, $unitData) use ($absolute, $handleDeclensions, $translator, $aUnit, $altNumbers, $interpolations) {
             $count = $unitData['value'];
 
@@ -1715,7 +1661,6 @@ class CarbonInterval extends DateInterval implements CarbonConverterInterface
         };
 
         $fallbackUnit = ['second', 's'];
-
         foreach ($diffIntervalArray as $diffIntervalData) {
             if ($diffIntervalData['value'] > 0) {
                 $unit = $short ? $diffIntervalData['unitShort'] : $diffIntervalData['unit'];
@@ -2227,7 +2172,7 @@ class CarbonInterval extends DateInterval implements CarbonConverterInterface
         unset($originalData['days']);
         $newData = $originalData;
 
-        foreach (self::getFlipCascadeFactors() as $source => [$target, $factor]) {
+        foreach (static::getFlipCascadeFactors() as $source => [$target, $factor]) {
             foreach (['source', 'target'] as $key) {
                 if ($$key === 'dayz') {
                     $$key = 'daysExcludeWeeks';
@@ -2317,7 +2262,7 @@ class CarbonInterval extends DateInterval implements CarbonConverterInterface
         $result = 0;
         $cumulativeFactor = 0;
         $unitFound = false;
-        $factors = self::getFlipCascadeFactors();
+        $factors = static::getFlipCascadeFactors();
         $daysPerWeek = static::getDaysPerWeek();
 
         $values = [

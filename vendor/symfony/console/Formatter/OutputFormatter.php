@@ -36,7 +36,7 @@ class OutputFormatter implements WrappableOutputFormatterInterface
     /**
      * Escapes "<" special char in given text.
      *
-     * @return string
+     * @return string Escaped text
      */
     public static function escape(string $text)
     {

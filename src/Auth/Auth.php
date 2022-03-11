@@ -39,7 +39,7 @@ class Auth extends Authenticate
     public function auth()
     {   
          if (Session::has(Auth::AUTHSSID)) {
-            return $user=User::find(Session::get(Auth::AUTHSSID));
+            return User::find(Session::get(Auth::AUTHSSID));
         }
     }
 

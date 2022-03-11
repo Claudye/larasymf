@@ -14,7 +14,7 @@ class SlugifyServiceProvider extends AbstractServiceProvider
         SlugifyInterface::class,
     ];
 
-    public function register(): void
+    public function register()
     {
         $this->container->share(SlugifyInterface::class, function () {
             $options = [];

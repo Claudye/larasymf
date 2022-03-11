@@ -1,23 +1,16 @@
 <?php
 namespace Simplecode\Auth;
-/**
- * @author Claude Fassinou <dev.claudy@gmail.com>
- * 
- * @license MIT
- * 
- * @copyright 2022 Larasymf
- */
 abstract class Authenticate{
 
     /**
-     * Identifier
+     * Identifant
      *
      * @var string
      */
     protected $identify = 'email';
 
     /**
-     * Password
+     * Passeword
      *
      * @var string
      */
@@ -29,7 +22,7 @@ abstract class Authenticate{
     /**
      * L'utilisateur paser
      *
-     * @var \App\Models\User|null
+     * @var \Components\Models\User|null
      */
     protected $auth;
 

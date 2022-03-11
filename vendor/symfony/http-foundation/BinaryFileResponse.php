@@ -118,7 +118,7 @@ class BinaryFileResponse extends Response
     /**
      * Gets the file.
      *
-     * @return File
+     * @return File The file to stream
      */
     public function getFile()
     {
@@ -127,8 +127,6 @@ class BinaryFileResponse extends Response
 
     /**
      * Automatically sets the Last-Modified header according the file modification date.
-     *
-     * @return $this
      */
     public function setAutoLastModified()
     {
@@ -139,8 +137,6 @@ class BinaryFileResponse extends Response
 
     /**
      * Automatically sets the ETag header according to the checksum of the file.
-     *
-     * @return $this
      */
     public function setAutoEtag()
     {
@@ -291,6 +287,8 @@ class BinaryFileResponse extends Response
     }
 
     /**
+     * Sends the file.
+     *
      * {@inheritdoc}
      */
     public function sendContent()

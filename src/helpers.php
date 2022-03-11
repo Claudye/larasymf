@@ -14,6 +14,7 @@ use Simplecode\Protocole\Routing\Views\Render;
 use Symfony\Component\HttpFoundation\InputBag;
 use Simplecode\Protocole\Http\RedirectResponse;
 use Symfony\Component\HttpFoundation\ServerBag;
+use Simplecode\Protocole\Routing\RouteCollection;
 use Simplecode\Session\Session as SessionSession;
 
 /**
@@ -25,8 +26,8 @@ use Simplecode\Session\Session as SessionSession;
  * @param string|null $name le nom associé au route
  * @return Route
  */
- function addRoute(string $uri, $action,array $options = []){
-    return new Route($uri,$action, $options);
+function addRoute(string $uri, $action,array $options = []){
+    return RouteCollection::add(new Route($uri,$action, $options));
  }
 
  /**
@@ -72,8 +73,11 @@ use Simplecode\Session\Session as SessionSession;
  * @param string $asset
  * @return string
  */
- function asset(string $asset){
-     return ASSET_URL . "/". trim($asset,'/');
+ function asset(string $asset, string $prefix=null){
+     if ($prefix) {
+        return joinPath(ASSET_URL,$prefix,$asset);
+     }
+     return joinPath(ASSET_URL,$asset);
  }
 /**
  * Retourne une valeur paramètre post ou gt
@@ -174,17 +178,24 @@ use Simplecode\Session\Session as SessionSession;
         return $path;
     }
 
-function error(string $key){
-    if (Session::has('_error')) {
-        $errors = Session::get('_error');
-        if (array_key_exists($key, $errors)) {
-            return $errors [$key];
+    function error(string $key){
+        if (Session::has('_error')) {
+            $errors = Session::get('_error');
+            if (array_key_exists($key,(array) $errors)) {
+                return $errors [$key];
+            }
         }
-      
+    
+        $errors = _SESSION()->get('_form_errors');
+        if ($key) {
+            if (is_array($errors)) {
+                if (array_key_exists($key, $errors)) {
+                    return $errors [$key];
+                }
+            }
+        }
+        return null;
     }
-    return '';
-}
-
 function hasError(string $key){
     if (Session::has('_error')) {
         $errors = Session::get('_error');
@@ -315,6 +326,8 @@ if (!function_exists('_GET')) {
     }
 }
 
+
+
 if (!function_exists('guard')) {
     function guard(string $guard){
         if ("admin"==$guard) {
@@ -328,3 +341,49 @@ if (!function_exists('guard')) {
         
     }
 }
+
+if (!function_exists('str_concat')) {
+   /**
+ * Concat string
+ *
+ * @param string ...$string
+ * @return string
+ */
+function str_concat(string ...$string){
+    $str = '';
+    for ($i=0; $i < func_num_args() ; $i++) {
+       $str.=func_get_args()[$i];
+    }
+
+    return $str;
+}
+}
+/**
+ * Affiche le token masqué par un input
+ *
+ * @return void
+ */
+function csrf_token(){
+    echo '<input type="hidden" name="_token" value="'.token().'">';
+}
+
+
+/**
+ * Return old value or null
+ *
+ * @param string|null $key
+ * @return mixed|null
+ */
+function old(string $key=null){
+    $errors = _SESSION()->get('_form');
+    if ($key) {
+        if (is_array($errors)) {
+            if (array_key_exists($key, $errors)) {
+                return $errors [$key];
+            }
+        }
+    }
+    return null;
+}
+
+

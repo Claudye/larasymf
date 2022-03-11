@@ -16,7 +16,6 @@ use Carbon\Exceptions\InvalidTypeException;
 use Carbon\Exceptions\NotLocaleAwareException;
 use Carbon\Language;
 use Carbon\Translator;
-use Carbon\TranslatorStrongTypeInterface;
 use Closure;
 use Symfony\Component\Translation\TranslatorBagInterface;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -183,7 +182,7 @@ trait Localization
             $locale = $translator->getLocale();
         }
 
-        $result = self::getFromCatalogue($translator, $translator->getCatalogue($locale), $key);
+        $result = $translator->getCatalogue($locale)->get($key);
 
         return $result === $key ? $default : $result;
     }
@@ -585,9 +584,7 @@ trait Localization
             }
 
             foreach (['ago', 'from_now', 'before', 'after'] as $key) {
-                if ($translator instanceof TranslatorBagInterface &&
-                    self::getFromCatalogue($translator, $translator->getCatalogue($newLocale), $key) instanceof Closure
-                ) {
+                if ($translator instanceof TranslatorBagInterface && $translator->getCatalogue($newLocale)->get($key) instanceof Closure) {
                     continue;
                 }
 
@@ -741,19 +738,6 @@ trait Localization
     }
 
     /**
-     * @param mixed                                                    $translator
-     * @param \Symfony\Component\Translation\MessageCatalogueInterface $catalogue
-     *
-     * @return mixed
-     */
-    private static function getFromCatalogue($translator, $catalogue, string $id, string $domain = 'messages')
-    {
-        return $translator instanceof TranslatorStrongTypeInterface
-            ? $translator->getFromCatalogue($catalogue, $id, $domain) // @codeCoverageIgnore
-            : $catalogue->get($id, $domain);
-    }
-
-    /**
      * Return the word cleaned from its translation codes.
      *
      * @param string $word
@@ -792,7 +776,7 @@ trait Localization
             $parts = explode('|', $message);
 
             return $key === 'to'
-                ? self::cleanWordFromTranslationString(end($parts))
+                ? static::cleanWordFromTranslationString(end($parts))
                 : '(?:'.implode('|', array_map([static::class, 'cleanWordFromTranslationString'], $parts)).')';
         }, $keys);
     }

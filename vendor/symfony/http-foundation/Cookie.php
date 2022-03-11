@@ -34,7 +34,7 @@ class Cookie
     private $sameSite;
     private $secureDefault = false;
 
-    private const RESERVED_CHARS_LIST = "=,; \t\r\n\v\f";
+    private static $reservedCharsList = "=,; \t\r\n\v\f";
     private const RESERVED_CHARS_FROM = ['=', ',', ';', ' ', "\t", "\r", "\n", "\v", "\f"];
     private const RESERVED_CHARS_TO = ['%3D', '%2C', '%3B', '%20', '%09', '%0D', '%0A', '%0B', '%0C'];
 
@@ -92,7 +92,7 @@ class Cookie
     public function __construct(string $name, string $value = null, $expire = 0, ?string $path = '/', string $domain = null, bool $secure = null, bool $httpOnly = true, bool $raw = false, ?string $sameSite = 'lax')
     {
         // from PHP source code
-        if ($raw && false !== strpbrk($name, self::RESERVED_CHARS_LIST)) {
+        if ($raw && false !== strpbrk($name, self::$reservedCharsList)) {
             throw new \InvalidArgumentException(sprintf('The cookie name "%s" contains invalid characters.', $name));
         }
 
@@ -156,8 +156,10 @@ class Cookie
      * Converts expires formats to a unix timestamp.
      *
      * @param int|string|\DateTimeInterface $expire
+     *
+     * @return int
      */
-    private static function expiresTimestamp($expire = 0): int
+    private static function expiresTimestamp($expire = 0)
     {
         // convert expiration time to a Unix timestamp
         if ($expire instanceof \DateTimeInterface) {
@@ -219,7 +221,7 @@ class Cookie
      */
     public function withRaw(bool $raw = true): self
     {
-        if ($raw && false !== strpbrk($this->name, self::RESERVED_CHARS_LIST)) {
+        if ($raw && false !== strpbrk($this->name, self::$reservedCharsList)) {
             throw new \InvalidArgumentException(sprintf('The cookie name "%s" contains invalid characters.', $this->name));
         }
 
@@ -255,7 +257,7 @@ class Cookie
     /**
      * Returns the cookie as a string.
      *
-     * @return string
+     * @return string The cookie
      */
     public function __toString()
     {

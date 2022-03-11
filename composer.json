@@ -4,15 +4,16 @@
         "illuminate/database": "^8.69",
         "illuminate/events": "^8.69",
         "phpmailer/phpmailer": "^6.5",
+        "cocur/slugify": "^4.0",
         "symfony/http-foundation": "^5.3"
-    },
-    "require-dev": {
-        "symfony/var-dumper": "^2.3.6"
     },
     "autoload": {
         "psr-4": {
             "Simplecode\\" : "src/",
             "App\\": "app/"
         }
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^5.4"
     }
 }

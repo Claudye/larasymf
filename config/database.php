@@ -9,7 +9,7 @@ return [
     "mysql" =>[
         'driver' => 'mysql',
         'host' => 'localhost',
-        'database' => 'laraymsf',
+        'database' => 'larasymf',
         'username' => 'root',
         'password' => '',
         'charset' => 'utf8',
